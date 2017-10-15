@@ -1,4 +1,5 @@
 from collections import defaultdict
+from collections import deque
 
 
 def two_sum(nums, target):
@@ -13,28 +14,18 @@ def two_sum(nums, target):
         (list) The indexes of the elements that sum to the target.
     """
     # use dictionary to search in O(1) complexity
-    numbers = defaultdict(list)
+    numbers = defaultdict(deque)
     for idx, number in enumerate(nums):
         numbers[number].append(idx)
 
-    # TODO: needs refactor
     # find complement number to sum up to target
     for first_num in nums:
         complementary_number = target - first_num
-        a = numbers[first_num][0]
-        try:
-            b = numbers[complementary_number]
-        except IndexError:
-            pass
-        else:
-            if first_num == complementary_number:
-                idx = 1
-            else:
-                idx = 0
-            try:
-                b[idx]
-            except IndexError:
-                pass
-            else:
-                return [a, b[idx]]
+        if complementary_number in numbers:
+            if complementary_number == first_num:
+                if len(numbers[first_num]) < 2:
+                    continue
+            first_idx = numbers[first_num].popleft()
+            second_idx = numbers[complementary_number].popleft()
+            return [first_idx, second_idx]
 
