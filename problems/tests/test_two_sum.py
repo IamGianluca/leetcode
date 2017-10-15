@@ -1,4 +1,5 @@
 import pytest
+from pytest import raises
 
 from problems.two_sum import two_sum
 
@@ -13,4 +14,8 @@ from problems.two_sum import two_sum
 ])
 def test_two_sum(nums, target, expected):
     assert two_sum(nums=nums, target=target) == expected
+
+def test_two_sum_error():
+    with pytest.raises(ValueError):
+        two_sum(nums=[1, 1, 5], target=10)
 
